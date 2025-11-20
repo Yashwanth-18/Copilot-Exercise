@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const activitySelect = document.getElementById("activity");
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
+  const participantsList = document.getElementById("participants-list");
 
   // Function to fetch activities from API
   async function fetchActivities() {
@@ -83,6 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
         signupForm.reset();
+
+        // Dynamically update the participants list
+        const participantList = document.querySelector(`.participants-list`);
+        if (participantList) {
+          const newParticipant = document.createElement("li");
+          newParticipant.textContent = email;
+          participantList.appendChild(newParticipant);
+        }
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";
@@ -101,6 +110,26 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error signing up:", error);
     }
   });
+
+  // Function to remove a participant
+  window.removeParticipant = function(email) {
+    const participantElement = document.querySelector(`li[data-email="${email}"]`);
+    if (participantElement) {
+      participantElement.remove();
+    }
+  }
+
+  // Example: Adding a participant dynamically
+  window.addParticipant = function(email) {
+    const listItem = document.createElement("li");
+    listItem.className = "participant";
+    listItem.dataset.email = email;
+    listItem.innerHTML = `
+      <span>${email}</span>
+      <span class="delete-icon" onclick="removeParticipant('${email}')">&times;</span>
+    `;
+    participantsList.appendChild(listItem);
+  }
 
   // Initialize app
   fetchActivities();

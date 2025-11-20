@@ -170,3 +170,20 @@ footer {
   margin-left: 2px;
   margin-bottom: 0;
 }
+
+.no-bullets {
+  list-style-type: none;
+  padding: 0;
+}
+
+.delete-icon {
+  color: red;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+div.participant {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
